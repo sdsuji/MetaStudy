@@ -1,0 +1,289 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: white;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+   background: radial-gradient(
+    circle at 0% 0%,
+    #fbfbfb,
+    #e8f9ff,
+    #c4d9ff,
+    #c5baff
+  );
+  color: #5a43aa;
+  padding: 0 1rem;
+  height: 60px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburger {
+  color: #5a43aa;
+  font-size: 1.3rem;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hamburger:hover {
+  transform: scale(1.05);
+}
+
+
+.profile {
+  background: #fff;
+  color: #5a43aa;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 60px;
+  right: 1.5rem;
+  background: white;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 0.75rem 0;
+  z-index: 1001;
+  width: 160px;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+.dropdown button {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.75rem 1.2rem;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown button:hover {
+  background: #f2f2f2;
+  color: #5a43aa;
+  font-weight: 500;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dashboard {
+  display: flex;
+  min-height: calc(100vh - 60px); 
+}
+
+/* Sidebar overlay */
+aside {
+  color: #5a43aa;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: calc(100% - 60px);
+  width: 200px;
+  background: radial-gradient(
+    circle at 0% 0%,
+    #fbfbfb,
+    #e8f9ff,
+    #c4d9ff,
+    #c5baff
+  );
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+
+  
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+
+aside.open {
+  transform: translateX(0);
+}
+
+aside button {
+  background: none;
+  border: none;
+  font-weight: bold;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+aside button:hover {
+  background: #ddd5ff;
+  color: #5a43aa;
+}
+
+
+/* Main content area */
+main {
+  flex-grow: 1;
+  padding: 1.5rem;
+  background: white;
+  transition: margin-left 0.3s ease;
+  width: 100%;
+}
+
+main.shifted {
+  margin-left: 200px;
+}
+
+.classroom-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.class-card {
+  background: white;
+  color: #5a43aa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-left: 6px solid #c5baff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none; /* Remove underline from link */
+     
+}
+
+.class-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+  .class-card {
+    width: 100%;
+  }
+}
+
+.floating-btn:hover{
+    transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.floating-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+    background: radial-gradient(
+    circle at 0% 0%,
+    #fbfbfb,
+    #e8f9ff,
+    #c4d9ff,
+    #c5baff
+  );
+  color: #5a43aa;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+}
+
+/* Popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-box {
+  background: white;
+  color: #5a43aa;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.popup-box input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.popup-box .primary {
+  background: #5a43aa;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup-box .close-icon {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-message {
+  color: #5a43aa;
+  font-weight: bold;
+  text-align: center;
+}
+.class-card h2,
+.class-card p,
+.class-card span {
+  text-decoration: none;
+  color: inherit;
+}
