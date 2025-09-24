@@ -1,15 +1,28 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const verifyRoutes = require('./routes/verify');
-require('dotenv').config();
+
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL // e.g. https://metastudy-frontend.onrender.com
+];
 
 app.use(cors({
-  origin: 'http://localhost:5173', // frontend URL
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
 // Middleware
 app.use(express.json());
 

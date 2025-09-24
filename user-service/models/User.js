@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
 
   // Teacher(alone has)
   staffId: String,
-  subject: String,
+  //subject: String,
 
   // Email verification
   isVerified: {

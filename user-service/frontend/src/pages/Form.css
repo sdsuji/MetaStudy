@@ -8,6 +8,7 @@
   align-items: center;
   padding: 0px;
   overflow: hidden;
+  
 }
 
 .form-box {
@@ -27,7 +28,9 @@
   flex-direction: column;
   gap: 0;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: auto;
+   scrollbar-width: thin;           /* Firefox */
+  scrollbar-color: #C5BAFF #C5BAFF;   /* Firefox */
 }
 
 .form-box input,
@@ -107,4 +110,19 @@ select:focus {
 
 .form-message.error {
   color: #b30000;
+}
+.input-error {
+  border: 1px solid red;
+}
+
+.input-group {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
 }

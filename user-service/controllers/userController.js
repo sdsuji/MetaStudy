@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     department,
     rollNo,
     staffId,
-    subject,
+    //subject,
   } = req.body;
 
   const strongPasswordRegex =
@@ -43,7 +43,7 @@ exports.register = async (req, res) => {
     }
 
     if (role === 'teacher') {
-      if (!staffId || !subject || !department) {
+      if (!staffId ||  !department) {
         return res.status(400).json({ msg: 'Missing teacher fields' });
       }
 
@@ -62,7 +62,7 @@ exports.register = async (req, res) => {
       department,
       rollNo,
       staffId,
-      subject,
+      //subject,
       isVerified: false,
     });
 
@@ -115,9 +115,9 @@ exports.login = async (req, res) => {
     const token = jwt.sign(
   {
     id: user._id,
-    role: user.role, // ✅ Add this line
-    name: user.name, // Optional: good for profile icon
-    email: user.email // Optional: useful for frontend
+    role: user.role, 
+    name: user.name, 
+    email: user.email 
   },
   process.env.JWT_SECRET,
   { expiresIn: '7d' }
@@ -315,7 +315,7 @@ exports.forgotPassword = async (req, res) => {
 
     res.status(200).json({ msg: 'Reset link sent to your email' });
   } catch (error) {
-    console.error('❌ Forgot Password error:', error.message);
+    console.error('Forgot Password error:', error.message);
     res.status(500).json({ msg: 'Internal server error' });
   }
 };
@@ -344,7 +344,7 @@ exports.resetPassword = async (req, res) => {
 
     res.status(200).json({ msg: 'Password reset successful. You can now log in.' });
   } catch (error) {
-    console.error('❌ Reset Password error:', error.message);
+    console.error('Reset Password error:', error.message);
     res.status(500).json({ msg: 'Server error' });
   }
 };

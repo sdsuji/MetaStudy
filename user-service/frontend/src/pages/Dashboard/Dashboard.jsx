@@ -31,8 +31,6 @@ const Dashboard = () => {
     fetchClassrooms();
   }, []);
 
-  
-
   const fetchClassrooms = async () => {
     try {
       const res = await axios.get('http://localhost:5001/api/classrooms/my', {
@@ -65,46 +63,60 @@ const Dashboard = () => {
     setFormMessage('');
   };
 
- const handleSubmit = async () => {
-  try {
+  const handleSubmit = async () => {
+    const { name, subject, section, code } = formData;
+
     if (role === 'teacher') {
-      await axios.post('http://localhost:5001/api/classrooms/create', {
-        name: formData.name,
-        subject: formData.subject,
-        section: formData.section
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setFormMessage('Classroom created successfully!');
+      const missingFields = [];
+      if (!name.trim()) missingFields.push('class name');
+      if (!subject.trim()) missingFields.push('subject name');
+
+      if (missingFields.length > 0) {
+        const message =
+          missingFields.length === 2
+            ? 'Enter the class name and subject name'
+            : `Enter ${missingFields[0]}`;
+        setFormMessage(message);
+        return;
+      }
     } else {
-      await axios.post('http://localhost:5001/api/classrooms/join', {
-        code: formData.code
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setFormMessage('Joined classroom successfully!');
+      if (!code.trim()) {
+        setFormMessage('Enter class code');
+        return;
+      }
     }
 
-    // Clear form
-    setFormData({ name: '', subject: '', section: '', code: '' });
-    
-    // Refresh classrooms list
-    fetchClassrooms();
+    try {
+      if (role === 'teacher') {
+        await axios.post(
+          'http://localhost:5001/api/classrooms/create',
+          { name: name.trim(), subject: subject.trim(), section: section.trim() },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setFormMessage('Classroom created successfully!');
+      } else {
+        await axios.post(
+          'http://localhost:5001/api/classrooms/join',
+          { code: code.trim() },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setFormMessage('Joined classroom successfully!');
+      }
 
-    // Auto close popup 
-    setTimeout(() => {
-      setShowPopup(false);
-      setFormMessage('');
-    }, 2000);
-  } catch (err) {
-    setFormMessage(err.response?.data?.msg || 'Operation failed.');
-  }
-};
+      setFormData({ name: '', subject: '', section: '', code: '' });
+      fetchClassrooms();
 
+      setTimeout(() => {
+        setShowPopup(false);
+        setFormMessage('');
+      }, 2000);
+    } catch (err) {
+      setFormMessage(err.response?.data?.msg || 'Operation failed.');
+    }
+  };
 
   return (
     <>
-      {/* Top bar */}
       <header>
         <div className="left-header">
           <button className="hamburger" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
@@ -120,9 +132,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Layout wrapper */}
       <div className="dashboard">
-        {/* Sidebar */}
         <aside className={sidebarOpen ? 'open' : ''}>
           <button>Home</button>
           <button>Calendar</button>
@@ -130,29 +140,43 @@ const Dashboard = () => {
           <button>Settings</button>
         </aside>
 
-        {/* Main content */}
         <main className={sidebarOpen ? 'shifted' : ''}>
           <div className="classroom-grid">
-           {classrooms.map(cls => (
-  <Link to={`/classroom/${cls._id}`} key={cls._id} className="class-card">
-    <h2>{cls.name}</h2>
-    <p>{cls.subject} - {cls.section}</p>
-    <span>Code: {cls.code}</span>
-  </Link>
-))}
-
+            {classrooms.map(cls => (
+              <div key={cls._id} className="class-card">
+                <Link to={`/classroom/${cls._id}`} className="class-info">
+                  <h2>{cls.name}</h2>
+                  <p>{cls.subject} - {cls.section}</p>
+                  <span>Code: {cls.code}</span>
+                </Link>
+                <div className="card-action">
+                  <button
+                    className="meet-btn"
+                    onClick={() => navigate(`/classroom/${cls._id}/meeting`)}
+                  >
+                    {role === 'teacher' ? 'Create Meet' : 'Join Meet'}
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* Floating Button */}
           <button className="floating-btn" onClick={() => setShowPopup(true)}>
             {role === 'teacher' ? 'Create Class' : 'Join Class'}
           </button>
 
-          {/* Popup */}
           {showPopup && (
             <div className="popup-overlay">
               <div className="popup-box">
-                <span className="close-icon" onClick={() => setShowPopup(false)}>×</span>
+                <span
+                  className="close-icon"
+                  onClick={() => {
+                    setShowPopup(false);
+                    setFormData({ name: '', subject: '', section: '', code: '' });
+                    setFormMessage('');
+                  }}
+                >×</span>
+
                 <h3>{role === 'teacher' ? 'Create Classroom' : 'Join Classroom'}</h3>
 
                 {role === 'teacher' ? (

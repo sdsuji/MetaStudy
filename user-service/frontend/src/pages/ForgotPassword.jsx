@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom';  
 import './Form.css';
 
 const ForgotPassword = () => {
@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   
-  const navigate = useNavigate();  // Initialize useNavigate hook
+  const navigate = useNavigate();  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +18,7 @@ const ForgotPassword = () => {
       setMessage(res.data.msg);
       setMessageType('success');
       setTimeout(() => {
-        navigate('/option');  // Redirect to /option page after 3 seconds
+        navigate('/option');  
       }, 3000);
     } catch (err) {
       setMessage(err.response?.data?.msg || 'Something went wrong');

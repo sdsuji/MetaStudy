@@ -15,7 +15,7 @@ const ClassroomDetail = () => {
   const token = localStorage.getItem('token');
   const user = JSON.parse(localStorage.getItem('user'));
 
-  // ✅ Image paths relative to /public
+  // Image paths relative to /public
   const folderImages = [
     '/materials.jpeg',
     '/test.png',
@@ -49,8 +49,6 @@ const ClassroomDetail = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -58,6 +56,15 @@ const ClassroomDetail = () => {
   };
 
   if (!classroom) return <p>Loading...</p>;
+
+  // Folder navigation mapping
+  const folderRoutes = {
+    "Materials": "materials",
+    "Discussion Forum": "discussion",
+    "Test Submissions": "tests",
+    "Assignment Materials": "assignments", 
+    // Add more folders 
+  };
 
   return (
     <>
@@ -88,22 +95,21 @@ const ClassroomDetail = () => {
           <div className="classroom-grid detail-grid">
             {classroom.folders.map((folder, index) => (
               <div
-  key={index}
-  className="class-card"
-  onClick={() => {
-    if (folder.name === 'Materials') {
-      navigate(`/classroom/${id}/materials`);
-    } else if (folder.name === 'Discussion Forum') {
-    navigate(`/classroom/${id}/discussion`);
-  }
-  }}
-  style={{ cursor: ['Materials', 'Discussion Forum'].includes(folder.name) ? 'pointer' : 'default' }}
-
->
-  <img src={folderImages[index]} alt={folder.name} className="folder-image" />
-  <h3>{folder.name}</h3>
-</div>
-
+                key={index}
+                className="class-card"
+                onClick={() => {
+                  const route = folderRoutes[folder.name];
+                  if (route) {
+                    navigate(`/classroom/${id}/${route}`);
+                  }
+                }}
+                style={{
+                  cursor: folderRoutes[folder.name] ? 'pointer' : 'default',
+                }}
+              >
+                <img src={folderImages[index] || '/default-folder.png'} alt={folder.name} className="folder-image" />
+                <h3>{folder.name}</h3>
+              </div>
             ))}
           </div>
         </main>
