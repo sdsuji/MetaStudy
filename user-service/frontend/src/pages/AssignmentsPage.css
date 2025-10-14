@@ -93,32 +93,45 @@
 }
 
 .actions button:nth-child(1) {
-  background: #3b82f6;
+  background: #3b82f6; /* View */
 }
 .actions button:nth-child(1):hover {
   background: #2563eb;
 }
 
 .actions button:nth-child(2) {
-  background: #22c55e;
+  background: #22c55e; /* Download */
 }
 .actions button:nth-child(2):hover {
   background: #16a34a;
 }
 
-.actions button:nth-child(3) {
+/* NEW: Style for Teacher Edit button (index 3 when Teacher) */
+.actions button.secondary {
+    background: #555; /* Edit */
+}
+.actions button.secondary:hover {
+    background: #333;
+}
+
+/* Delete (index 4 or 3 depending on role) */
+.actions button:nth-child(4), 
+.actions button:last-child[onClick*="deleteTarget"] {
   background: #ef4444;
 }
-.actions button:nth-child(3):hover {
+.actions button:nth-child(4):hover, 
+.actions button:last-child[onClick*="deleteTarget"]:hover {
   background: #dc2626;
 }
 
-.actions button:last-child {
+/* View Submissions / Submit (index 5 or 3 depending on role) */
+.actions button:last-child:not([onClick*="deleteTarget"]) {
   background: #f59e0b;
 }
-.actions button:last-child:hover {
+.actions button:last-child:not([onClick*="deleteTarget"]):hover {
   background: #d97706;
 }
+
 
 /* Popup */
 .popup {
@@ -136,6 +149,14 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.popup label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .popup-header {
@@ -156,6 +177,9 @@
   color: #dc2626;
 }
 
+.popup input[type="text"],
+.popup input[type="date"],
+.popup input[type="file"],
 .popup input,
 .popup textarea {
   width: 100%;
@@ -163,6 +187,8 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 15px;
+   margin-bottom: 15px;
+   display: block;
 }
 
 /* Popup Actions */
@@ -225,14 +251,16 @@
   background: #2563eb;
 }
 
-.submission-upload p {
-  font-size: 14px;
-  color: red;
-  margin: 0;
+/* Style for message when past due date */
+.submission-upload .past-due {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ef4444;
+    margin: 0;
 }
 
 /* Submission List (Student) */
-.submission-popup .submissions-list-student {
+.submissions-list-student { /* Renamed for consistency with teacher list */
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -270,6 +298,9 @@
 .submission-info .feedback {
   font-size: 13px;
   color: #555;
+  margin-top: 8px;
+  padding-top: 5px;
+  border-top: 1px dashed #e0e0e0;
 }
 
 .submission-actions {
@@ -305,16 +336,16 @@
 }
 
 /* Scrollbar for Student Submissions */
-.submission-popup .submissions-list-student::-webkit-scrollbar {
+.submissions-list-student::-webkit-scrollbar {
   width: 6px;
 }
 
-.submission-popup .submissions-list-student::-webkit-scrollbar-thumb {
+.submissions-list-student::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 3px;
 }
 
-.submission-popup .submissions-list-student::-webkit-scrollbar-thumb:hover {
+.submissions-list-student::-webkit-scrollbar-thumb:hover {
   background: #a0a0a0;
 }
 
@@ -323,7 +354,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-height: 70vh;
+  max-height: 70vh; /* This ensures the scroll bar appears */
   overflow-y: auto;
   padding-right: 8px;
 }
@@ -383,7 +414,7 @@
 }
 
 .teacher-actions button:nth-child(1) {
-  background: #3b82f6;
+  background: #3b82f6; /* Save Grade */
 }
 
 .teacher-actions button:nth-child(1):hover {
@@ -391,7 +422,7 @@
 }
 
 .teacher-actions button:nth-child(2) {
-  background: #22c55e;
+  background: #22c55e; /* View */
 }
 
 .teacher-actions button:nth-child(2):hover {
@@ -399,7 +430,7 @@
 }
 
 .teacher-actions .danger {
-  background: #ef4444;
+  background: #ef4444; /* Delete */
 }
 
 .teacher-actions .danger:hover {
@@ -418,4 +449,54 @@
 
 .submissions-list-teacher::-webkit-scrollbar-thumb:hover {
   background: #a0a0a0;
+}
+
+.custom-select-list {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px; /* Limits the visible height, creating the scrollable box */
+    overflow-y: auto; /* Adds scrollbar when needed */
+    padding: 0;
+    margin-top: 5px;
+    width: 100%; /* Match the width of the input/textarea fields */
+    box-sizing: border-box;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+/* Individual student name item */
+.custom-list-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    user-select: none; /* Prevent text selection while clicking */
+}
+
+/* Hover state */
+.custom-list-item:hover {
+    background-color: #f0f0f0; /* Light gray on hover */
+}
+
+/* Selected state - similar to the native control look */
+.custom-list-item.selected {
+    background-color: #007bff; /* Primary blue color */
+    color: white; /* White text for contrast */
+}
+
+/* Ensure form groups have a bottom margin for spacing */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style for the <small> tag showing student count */
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #6c757d;
 }

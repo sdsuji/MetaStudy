@@ -11,8 +11,10 @@ import ClassroomDetail from './pages/ClassroomDetail';
 import MaterialsPage from './pages/MaterialsPage';
 import DiscussionPage from './pages/DiscussionPage';
 import ClassroomMeeting from './pages/ClassroomMeeting';
-
+import PresentationPage from './pages/PresentationsPage';
 import AssignmentsPage from './pages/AssignmentsPage'; 
+import TestServicePage from './pages/TestServicePage'; 
+import GroupService from './pages/GroupService';
 
 
 
@@ -29,8 +31,18 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/classroom/:id/materials" element={<MaterialsPage />} />
       <Route path="/classroom/:id/discussion" element={<DiscussionPage />} />
       <Route path="/classroom/:id/meeting" element={<ClassroomMeeting />} />
-    
+      <Route path="/classroom/:id/presentations" element={<PresentationPage />} /> 
       <Route path="/classroom/:id/assignments" element={<AssignmentsPage />} /> {/* New route */}
+       <Route path="/classroom/:id/tests" element={<TestServicePage />} />
+        <Route 
+        path="/classroom/:id/group-service" 
+        element={<GroupService />} 
+      />
+      <Route 
+        path="/classroom/:id/group-grading/:assignmentId" 
+        element={<GroupService />} 
+      />
+    
     </Routes>
   </BrowserRouter>
 );

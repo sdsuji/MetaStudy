@@ -63,6 +63,8 @@ const ClassroomDetail = () => {
     "Discussion Forum": "discussion",
     "Test Submissions": "tests",
     "Assignment Materials": "assignments", 
+     "Presentation Materials": "presentations",
+     "Groups": "group-service", 
     // Add more folders 
   };
 
